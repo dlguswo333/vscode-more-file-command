@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "vscode-more-file-command.helloWorld",
-        "title": "Hello World"
+        "command": "vscode-more-file-command.renameCurrentFile",
+        "title": "More File Command: Rename Current File"
       }
     ]
   },
