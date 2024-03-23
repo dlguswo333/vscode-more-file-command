@@ -17,12 +17,15 @@ const command = vscode.commands.registerCommand('vscode-more-file-command.rename
       if (value.includes('/') || value.includes('\\')) {
         return 'Renaming the file name including path separator is not supported.';
       }
+      if (!value.trim()) {
+        return `Naming the file name as '${value}' is not supported.`;
+      }
       return undefined;
     },
   });
 
   inputRes.then(async (value) => {
-    if (!value || !(value = value.trim())) {
+    if (!value) {
       return;
     }
     const targetUri = vscode.Uri.joinPath(currentFile.uri, '../', value);
