@@ -11,7 +11,7 @@ const command = vscode.commands.registerCommand('vscode-more-file-command.rename
   }
 
   const inputRes = vscode.window.showInputBox({
-    title: 'Insert the new file for the current file:',
+    title: 'Insert a new name for the current file:',
     value: currentFileName,
     validateInput: (value) => {
       if (value.includes('/') || value.includes('\\')) {
