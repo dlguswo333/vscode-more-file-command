@@ -15,11 +15,11 @@
     "commands": [
       {
         "command": "vscode-more-file-command.renameCurrentFile",
-        "title": "More File Command: Rename Current File"
+        "title": "More File Command: Rename the Current File"
       },
       {
         "command": "vscode-more-file-command.moveCurrentFile",
-        "title": "More File Command: Move Current File"
+        "title": "More File Command: Move the Current File"
       }
     ]
   },
