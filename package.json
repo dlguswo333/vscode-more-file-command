@@ -1,7 +1,7 @@
 {
   "name": "vscode-more-file-command",
   "displayName": "vscode-more-file-command",
-  "description": "Add more file commands to the command palette",
+  "description": "Add more file commands to the command palette that improve productivity",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.87.0"
