@@ -20,6 +20,10 @@
       {
         "command": "vscode-more-file-command.moveCurrentFile",
         "title": "More File Command: Move the Current File"
+      },
+      {
+        "command": "vscode-more-file-command.createNewFile",
+        "title": "More File Command: Create New File"
       }
     ]
   },
