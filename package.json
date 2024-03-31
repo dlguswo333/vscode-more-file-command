@@ -2,6 +2,8 @@
   "name": "vscode-more-file-command",
   "displayName": "vscode-more-file-command",
   "description": "Add more file commands to the command palette that improve productivity",
+  "repository": {"url": "https://github.com/dlguswo333/vscode-more-file-command"},
+  "publisher": "dlguswo333",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.87.0"
