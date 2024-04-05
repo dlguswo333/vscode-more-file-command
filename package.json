@@ -26,6 +26,10 @@
       {
         "command": "vscode-more-file-command.createNewFile",
         "title": "More File Command: Create New File"
+      },
+      {
+        "command": "vscode-more-file-command.deleteCurrentFile",
+        "title": "More File Command: Delete Current File"
       }
     ]
   },
