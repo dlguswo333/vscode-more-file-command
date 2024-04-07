@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import {getFileNameFromPath} from '../util';
 
 const DELETE_PERMANENTLY = 'Delete Permanently';
 
@@ -7,7 +8,7 @@ const command = vscode.commands.registerCommand('vscode-more-file-command.delete
   if (!currentFile) {
     return;
   }
-  const currentFileName = currentFile.fileName.split('/').at(-1);
+  const currentFileName = getFileNameFromPath(currentFile.fileName);
   if (!currentFileName) {
     return;
   }

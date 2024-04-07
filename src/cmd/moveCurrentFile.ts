@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import {getFileNameFromPath} from '../util';
 
 const readDirectory = vscode.workspace.fs.readDirectory;
 
@@ -41,7 +42,7 @@ const moveCurrentFile = async () => {
   if (!currentFile || !workspaceFolder) {
     return;
   }
-  const currentFileName = currentFile.fileName.split('/').at(-1);
+  const currentFileName = getFileNameFromPath(currentFile.fileName);
   if (!currentFileName) {
     return;
   }
