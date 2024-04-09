@@ -1,10 +1,10 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import renameCurrentFileCmd from './cmd/renameCurrentFile';
-import moveCurrentFileCmd from './cmd/moveCurrentFile';
-import createNewFileCmd from './cmd/createNewFile';
-import deleteCurrentFileCmd from './cmd/deleteCurrentFile';
+import renameCurrentFileCmd from '@/cmd/renameCurrentFile';
+import moveCurrentFileCmd from '@/cmd/moveCurrentFile';
+import createNewFileCmd from '@/cmd/createNewFile';
+import deleteCurrentFileCmd from '@/cmd/deleteCurrentFile';
 
 export function activate (context: vscode.ExtensionContext) {
   console.log('The Extension "vscode-more-file-command" is now active.');

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import {getFileNameFromPath} from '../util';
+import {getFileNameFromPath} from '@/util';
 
 const readDirectory = vscode.workspace.fs.readDirectory;
 

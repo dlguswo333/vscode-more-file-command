@@ -12,5 +12,8 @@
 		"strictNullChecks": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUnusedParameters": true,
-	}
+		"paths": {
+			"@/*": ["./src/*"]
+		}
+	},
 }
