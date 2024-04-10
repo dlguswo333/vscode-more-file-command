@@ -16,6 +16,12 @@ Move the current file to a different folder inside the command palette.
 - You can move the current file inside the workspace folder.
 - If a file with the same name exists, the command will fail.
 
+### Delete the Current File
+![delete](docs/delete.gif)
+
+Delete the current file **permanently** inside the command palette.
+- The extension will ask you again to make sure you are okay with deleting the file.
+
 ### Create New File
 ![create](docs/create.gif)
 
@@ -30,6 +36,10 @@ Create a new file at the selected folder.
 <!-- ## Known Issues -->
 
 ## Release Notes
+### v0.0.2
+- Add new command: 'More File Command: Delete Current File'.
+- Fix some commands not work on Windows platform.
+
 ### v0.0.1
 - First release of the extension.
 
