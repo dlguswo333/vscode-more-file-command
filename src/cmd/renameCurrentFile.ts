@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import {getFileNameFromPath} from '../util';
+import {getFileNameFromPath} from '@/util';
 
 const command = vscode.commands.registerCommand('vscode-more-file-command.renameCurrentFile', () => {
   const currentFile = vscode.window.activeTextEditor?.document;
