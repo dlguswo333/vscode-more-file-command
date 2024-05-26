@@ -29,6 +29,13 @@ Create a new file at the selected folder.
 - You can select a folder inside the workspace folder.
 - Once you have selected a folder, the command will execute vscode built-in `File: New File` command inside the folder.
 
+### Close All Removed Editors
+![close](docs/close.gif)
+
+Close all editors that show files that have been removed.
+- Useful when you have lots of files that are being created or removed; e.g. git checkout.
+- It will not close editors that are either modified or pinned.
+
 <!-- ## Requirements -->
 
 <!-- ## Extension Settings -->
