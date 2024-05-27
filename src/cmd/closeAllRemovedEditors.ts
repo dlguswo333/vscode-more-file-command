@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
 
-const command = vscode.commands.registerCommand('vscode-more-file-command.closeAllRemovedEditors', () => {
+const command = vscode.commands.registerCommand('vscode-more-file-command.closeAllRemovedEditors', async () => {
   let didFail: boolean = false;
 
-  vscode.window.tabGroups.all.forEach(tabGroup => {
-    tabGroup.tabs.forEach(async (tab) => {
+  await Promise.allSettled(vscode.window.tabGroups.all.map(tabGroup => {
+    return Promise.allSettled(tabGroup.tabs.map(async (tab) => {
       if (
         tab.isDirty ||
         tab.isPinned
@@ -30,8 +30,8 @@ const command = vscode.commands.registerCommand('vscode-more-file-command.closeA
           didFail = true;
         }
       }
-    });
-  });
+    }));
+  }));
 
   if (didFail) {
     vscode.window.showErrorMessage('Failed to close some removed editors for unknown reasons');
