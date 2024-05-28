@@ -30,7 +30,6 @@ const moveCurrentFile = async () => {
     {
       canPickMany: false,
       title: 'Insert a folder name to move the current file to:',
-      matchOnDescription: true,
     }
   );
   if (!pickedItem) {
