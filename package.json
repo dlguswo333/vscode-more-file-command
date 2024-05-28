@@ -6,7 +6,7 @@
     "url": "https://github.com/dlguswo333/vscode-more-file-command"
   },
   "publisher": "dlguswo333",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.87.0"
   },
