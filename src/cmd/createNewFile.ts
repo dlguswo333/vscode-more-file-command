@@ -1,4 +1,4 @@
-import {getAllFoldersInWorkspaceFolder} from '@/util';
+import {getAllFoldersInWorkspaceFolder, getRelativeUriPath} from '@/util';
 import * as vscode from 'vscode';
 
 type QuickPickFolderItem = vscode.QuickPickItem & { uri: vscode.Uri };
@@ -16,7 +16,7 @@ const createNewFile = async () => {
   }
 
   const quickPickItems = folders.map(folder => ({
-    label: folder.path,
+    label: getRelativeUriPath(folder, workspaceFolder.uri),
     iconPath: vscode.ThemeIcon.Folder,
     uri: folder,
   }));
