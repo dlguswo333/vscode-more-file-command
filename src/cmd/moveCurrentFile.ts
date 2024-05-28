@@ -1,40 +1,7 @@
 import * as vscode from 'vscode';
-import {getFileNameFromPath} from '@/util';
-
-const readDirectory = vscode.workspace.fs.readDirectory;
+import {getAllFoldersInWorkspaceFolder, getFileNameFromPath, getRelativeUriPath} from '@/util';
 
 type QuickPickFolderItem = vscode.QuickPickItem & { uri: vscode.Uri };
-
-const ignoreFolderNamePatterns = [
-  /^\./ // Folders that start with '.'
-];
-
-const isTruthy = (value: unknown) => !!value;
-
-const getAllSubFolders = async (folder: vscode.Uri, retArray: vscode.Uri[]) => {
-  const subFolders = (await readDirectory(folder))
-    .filter(item => (
-      [
-        item[1] === vscode.FileType.Directory,
-        !ignoreFolderNamePatterns.some(pattern => pattern.test(item[0]))
-      ]
-    ).every(isTruthy));
-  const subFolderUris = subFolders.map(subFolder => vscode.Uri.joinPath(folder, subFolder[0]));
-  // Push narrow folders first into the array.
-  retArray.push(...subFolderUris);
-  await Promise.all(subFolderUris.map(subFolderUri => getAllSubFolders(subFolderUri, retArray)));
-};
-
-const getAllFoldersInWorkspaceFolder = async () => {
-  // [TODO] Support multi-root workspace.
-  const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-  if (!workspaceFolder) {
-    return undefined;
-  }
-  const folders = [workspaceFolder.uri];
-  await getAllSubFolders(folders[0], folders);
-  return folders;
-};
 
 const moveCurrentFile = async () => {
   const currentFile = vscode.window.activeTextEditor?.document;
@@ -54,8 +21,7 @@ const moveCurrentFile = async () => {
   }
 
   const quickPickItems = folders.map(folder => ({
-    label: folder.path.substring(folder.path.lastIndexOf('/') + 1),
-    description: folder.path.substring(0, folder.path.lastIndexOf('/')),
+    label: getRelativeUriPath(folder, workspaceFolder.uri),
     iconPath: vscode.ThemeIcon.Folder,
     uri: folder,
   }));
@@ -64,7 +30,6 @@ const moveCurrentFile = async () => {
     {
       canPickMany: false,
       title: 'Insert a folder name to move the current file to:',
-      matchOnDescription: true,
     }
   );
   if (!pickedItem) {
