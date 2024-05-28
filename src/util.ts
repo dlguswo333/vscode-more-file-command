@@ -14,6 +14,35 @@ export const getFileNameFromPath = (filePath: string): string | undefined => {
 
 const isTruthy = (value: unknown) => !!value;
 
+// [TODO] Support multi-root workspace.
+/**
+ * Get array of `vscode.WorkspaceFolder`s.
+ */
+export const getWorkspaceFolder = () =>
+  vscode.workspace.workspaceFolders?.[0];
+
+/**
+ * Returns relative Uri path for pretty printing.
+ * @example
+ * // Returns 'bar/one/two'
+ * getRelativeUriPath(
+ *  vscode.Uri.from({scheme: 'file', path: '/foo/bar/one/two'}),
+ *  vscode.Uri.from({scheme: 'file', path: '/foo/bar'}),
+ * )
+ *
+ *  * // Returns 'bar'
+ * getRelativeUriPath(
+ *  vscode.Uri.from({scheme: 'file', path: '/foo/bar'}),
+ *  vscode.Uri.from({scheme: 'file', path: '/foo/bar'}),
+ * )
+ */
+export const getRelativeUriPath = (targetUri: vscode.Uri, baseUri: vscode.Uri): string => {
+  const lastIndexOfPathSepInBasePath = baseUri.path.lastIndexOf('/');
+  const LAST_SEP = /\/$/;
+  const baseName = baseUri.path.substring(lastIndexOfPathSepInBasePath + 1).replace(LAST_SEP, '');
+  return targetUri.path.replace(baseUri.path, baseName);
+};
+
 const ignoreFolderNamePatterns = [
   /^\./ // Folders that start with '.'
 ];
@@ -39,8 +68,7 @@ const getAllSubFolders = async (folder: vscode.Uri, retArray: vscode.Uri[]) => {
  * Get list of all subfolders inside the workspace folder.
  */
 export const getAllFoldersInWorkspaceFolder = async () => {
-  // [TODO] Support multi-root workspace.
-  const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+  const workspaceFolder = getWorkspaceFolder();
   if (!workspaceFolder) {
     return undefined;
   }
