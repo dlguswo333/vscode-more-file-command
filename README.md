@@ -1,5 +1,5 @@
 # vscode-more-file-command README
-vscode extension "vscode-more-file-command" add file-related commands to the command palette
+vscode extension "vscode-more-file-command" adds file-related commands to the command palette
 so you can rename, move or create a file easily.
 
 ## Features
@@ -43,6 +43,10 @@ Close all editors that show files that have been removed.
 <!-- ## Known Issues -->
 
 ## Release Notes
+### v0.0.3
+- Add new command: 'More File Command: Close All Removed Editors'.
+- 'Move the Current File' and 'Create New File' commands list folders' paths relative to the workspace folder.
+
 ### v0.0.2
 - Add new command: 'More File Command: Delete Current File'.
 - Fix some commands not work on Windows platform.
