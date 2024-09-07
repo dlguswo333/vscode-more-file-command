@@ -37,7 +37,22 @@
         "command": "vscode-more-file-command.closeAllRemovedEditors",
         "title": "More File Command: Close All Removed Editors"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "More File Command",
+      "properties": {
+        "vscode-more-file-command.ignore.dotFolders": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Should ignore folders that start with `.`."
+        },
+        "vscode-more-file-command.ignore.foldersInGitignore": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Should ignore folders that are listed in `.gitignore`."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
