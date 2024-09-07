@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import ignore from 'ignore';
+import {getShouldIgnoreDotFolders, getShouldIgnoreFoldersInGitignore} from '@/config';
 
 /**
  * Get file name from fs path.
@@ -58,21 +59,24 @@ export const getRelativeUriPath = (targetUri: vscode.Uri, baseUri: vscode.Uri): 
   return targetUri.path.replace(baseUri.path, baseName);
 };
 
-const ignoreFolderNamePatterns = [
-  /^\./ // Folders that start with '.'
-];
+const ignoreFolderNamePatterns = {
+  dotFolder: /^\./, // Folders that start with '.'
+};
 
 const gitignoreFileName = '.gitignore';
-const shouldRepectGitignore = true;
 
 /**
  * Get all subfolders within `folder` and push them into `retArray`.
  */
-const getAllSubFolders = async (folder: vscode.Uri, retArray: vscode.Uri[]) => {
+const getAllSubFolders = async (
+  folder: vscode.Uri,
+  retArray: vscode.Uri[],
+  shouldIgnore: {dotFolders: boolean; foldersInGitignore: boolean;}
+) => {
   const gitignoreUri = vscode.Uri.joinPath(folder, gitignoreFileName);
   const gitignoreExists = await getUriAvailable(gitignoreUri);
   const gitignore = ignore();
-  if (shouldRepectGitignore && gitignoreExists) {
+  if (shouldIgnore.foldersInGitignore && gitignoreExists) {
     gitignore.add(await readUriContents(gitignoreUri));
   }
 
@@ -80,25 +84,37 @@ const getAllSubFolders = async (folder: vscode.Uri, retArray: vscode.Uri[]) => {
     .filter(item => (
       [
         item[1] === vscode.FileType.Directory,
-        !ignoreFolderNamePatterns.some(pattern => pattern.test(item[0])),
-        !(shouldRepectGitignore && gitignoreExists && gitignore.ignores(item[0]))
+        !(shouldIgnore.dotFolders && ignoreFolderNamePatterns.dotFolder.test(item[0])),
+        !(shouldIgnore.foldersInGitignore && gitignoreExists && gitignore.ignores(item[0]))
       ]
     ).every(isTruthy));
   const subFolderUris = subFolders.map(subFolder => vscode.Uri.joinPath(folder, subFolder[0]));
   // Push narrow folders first into the array.
   retArray.push(...subFolderUris);
-  await Promise.all(subFolderUris.map(subFolderUri => getAllSubFolders(subFolderUri, retArray)));
+  await Promise.all(
+    subFolderUris.map(subFolderUri => getAllSubFolders(
+      subFolderUri,
+      retArray,
+      shouldIgnore
+    ))
+  );
 };
 
 /**
  * Get list of all subfolders inside the workspace folder.
  */
 export const getAllFoldersInWorkspaceFolder = async () => {
+  const shouldIgnoreDotFolders = getShouldIgnoreDotFolders();
+  const shouldIgnoreFoldersInGitignore = getShouldIgnoreFoldersInGitignore();
   const workspaceFolder = getWorkspaceFolder();
   if (!workspaceFolder) {
     return undefined;
   }
   const folders = [workspaceFolder.uri];
-  await getAllSubFolders(folders[0], folders);
+  await getAllSubFolders(
+    folders[0],
+    folders,
+    {dotFolders: shouldIgnoreDotFolders, foldersInGitignore: shouldIgnoreFoldersInGitignore}
+  );
   return folders;
 };
