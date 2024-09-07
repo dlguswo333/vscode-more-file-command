@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import ignore from 'ignore';
 
 /**
  * Get file name from fs path.
@@ -20,6 +21,20 @@ const isTruthy = (value: unknown) => !!value;
  */
 export const getWorkspaceFolder = () =>
   vscode.workspace.workspaceFolders?.[0];
+
+export const getUriAvailable = async (uri: vscode.Uri) => {
+  try {
+    await vscode.workspace.fs.stat(uri);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+export const readUriContents = async (uri: vscode.Uri) => {
+  const document = await vscode.workspace.openTextDocument(uri);
+  return document.getText();
+};
 
 /**
  * Returns relative Uri path for pretty printing.
@@ -47,15 +62,26 @@ const ignoreFolderNamePatterns = [
   /^\./ // Folders that start with '.'
 ];
 
+const gitignoreFileName = '.gitignore';
+const shouldRepectGitignore = true;
+
 /**
  * Get all subfolders within `folder` and push them into `retArray`.
  */
 const getAllSubFolders = async (folder: vscode.Uri, retArray: vscode.Uri[]) => {
+  const gitignoreUri = vscode.Uri.joinPath(folder, gitignoreFileName);
+  const gitignoreExists = await getUriAvailable(gitignoreUri);
+  const gitignore = ignore();
+  if (shouldRepectGitignore && gitignoreExists) {
+    gitignore.add(await readUriContents(gitignoreUri));
+  }
+
   const subFolders = (await vscode.workspace.fs.readDirectory(folder))
     .filter(item => (
       [
         item[1] === vscode.FileType.Directory,
-        !ignoreFolderNamePatterns.some(pattern => pattern.test(item[0]))
+        !ignoreFolderNamePatterns.some(pattern => pattern.test(item[0])),
+        !(shouldRepectGitignore && gitignoreExists && gitignore.ignores(item[0]))
       ]
     ).every(isTruthy));
   const subFolderUris = subFolders.map(subFolder => vscode.Uri.joinPath(folder, subFolder[0]));
