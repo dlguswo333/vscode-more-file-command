@@ -46,6 +46,16 @@
           "default": true,
           "markdownDescription": "Should ignore folders that start with `.`."
         },
+        "vscode-more-file-command.ignore.patterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "^\\."
+          ],
+          "markdownDescription": "Ignore folders with names that match the regular expression patterns. The items are transformed to regular expressions with `new Regexp(item)`. Note that backslashes need to be escaped."
+        },
         "vscode-more-file-command.ignore.foldersInGitignore": {
           "type": "boolean",
           "default": true,
