@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import ignore from 'ignore';
-import {getIgnoreFolderPatterns, getShouldIgnoreDotFolders, getShouldIgnoreFoldersInGitignore} from '@/config';
+import {getIgnoreFolderPatterns, getShouldIgnoreFoldersInGitignore} from '@/config';
 
 /**
  * Get file name from fs path.
@@ -59,10 +59,6 @@ export const getRelativeUriPath = (targetUri: vscode.Uri, baseUri: vscode.Uri): 
   return targetUri.path.replace(baseUri.path, baseName);
 };
 
-const ignoreFolderNamePatterns = {
-  dotFolder: /^\./, // Folders that start with '.'
-};
-
 const gitignoreFileName = '.gitignore';
 
 /**
@@ -71,7 +67,7 @@ const gitignoreFileName = '.gitignore';
 const getAllSubFolders = async (
   folder: vscode.Uri,
   retArray: vscode.Uri[],
-  shouldIgnore: {dotFolders: boolean; foldersInGitignore: boolean; patterns: RegExp[]}
+  shouldIgnore: {foldersInGitignore: boolean; patterns: RegExp[]}
 ) => {
   const gitignoreUri = vscode.Uri.joinPath(folder, gitignoreFileName);
   const gitignoreExists = await getUriAvailable(gitignoreUri);
@@ -84,7 +80,6 @@ const getAllSubFolders = async (
     .filter(item => (
       [
         item[1] === vscode.FileType.Directory,
-        !(shouldIgnore.dotFolders && ignoreFolderNamePatterns.dotFolder.test(item[0])),
         !(shouldIgnore.foldersInGitignore && gitignoreExists && gitignore.ignores(item[0])),
         !shouldIgnore.patterns.some(pattern => pattern.test(item[0]))
       ]
@@ -105,7 +100,6 @@ const getAllSubFolders = async (
  * Get list of all subfolders inside the workspace folder.
  */
 export const getAllFoldersInWorkspaceFolder = async () => {
-  const shouldIgnoreDotFolders = getShouldIgnoreDotFolders();
   const shouldIgnoreFoldersInGitignore = getShouldIgnoreFoldersInGitignore();
   const ignorePatterns = getIgnoreFolderPatterns();
   const workspaceFolder = getWorkspaceFolder();
@@ -116,7 +110,7 @@ export const getAllFoldersInWorkspaceFolder = async () => {
   await getAllSubFolders(
     folders[0],
     folders,
-    {dotFolders: shouldIgnoreDotFolders, foldersInGitignore: shouldIgnoreFoldersInGitignore, patterns: ignorePatterns}
+    {foldersInGitignore: shouldIgnoreFoldersInGitignore, patterns: ignorePatterns}
   );
   return folders;
 };
