@@ -67,12 +67,12 @@ const gitignoreFileName = '.gitignore';
 const getAllSubFolders = async (
   folder: vscode.Uri,
   retArray: vscode.Uri[],
-  shouldIgnore: {foldersInGitignore: boolean; patterns: RegExp[]}
+  ignoreOptions: {foldersInGitignore: boolean; patterns: RegExp[]}
 ) => {
   const gitignoreUri = vscode.Uri.joinPath(folder, gitignoreFileName);
   const gitignoreExists = await getUriAvailable(gitignoreUri);
   const gitignore = ignore();
-  if (shouldIgnore.foldersInGitignore && gitignoreExists) {
+  if (ignoreOptions.foldersInGitignore && gitignoreExists) {
     gitignore.add(await readUriContents(gitignoreUri));
   }
 
@@ -80,8 +80,8 @@ const getAllSubFolders = async (
     .filter(item => (
       [
         item[1] === vscode.FileType.Directory,
-        !(shouldIgnore.foldersInGitignore && gitignoreExists && gitignore.ignores(item[0])),
-        !shouldIgnore.patterns.some(pattern => pattern.test(item[0]))
+        !(ignoreOptions.foldersInGitignore && gitignoreExists && gitignore.ignores(item[0])),
+        !ignoreOptions.patterns.some(pattern => pattern.test(item[0]))
       ]
     ).every(isTruthy));
   const subFolderUris = subFolders.map(subFolder => vscode.Uri.joinPath(folder, subFolder[0]));
@@ -91,7 +91,7 @@ const getAllSubFolders = async (
     subFolderUris.map(subFolderUri => getAllSubFolders(
       subFolderUri,
       retArray,
-      shouldIgnore
+      ignoreOptions
     ))
   );
 };
