@@ -15,6 +15,8 @@ Rename the current file inside the command palette.
 Move the current file to a different folder inside the command palette.
 - You can move the current file inside the workspace folder.
 - If a file with the same name exists, the command will fail.
+- You may select whether to ignore folders listed in `.gitignore`.
+- You may specify folder name patterns to ignore.
 
 ### Delete the Current File
 ![delete](docs/delete.gif)
@@ -28,6 +30,8 @@ Delete the current file **permanently** inside the command palette.
 Create a new file at the selected folder.
 - You can select a folder inside the workspace folder.
 - Once you have selected a folder, the command will execute vscode built-in `File: New File` command inside the folder.
+- You may select whether to ignore folders listed in `.gitignore`.
+- You may specify folder name patterns to ignore.
 
 ### Close All Removed Editors
 ![close](docs/close.gif)
@@ -43,6 +47,10 @@ Close all editors that show files that have been removed.
 <!-- ## Known Issues -->
 
 ## Release Notes
+### v0.0.4
+- Add new option: Whether to ignore folders listed in `.gitignore`.
+- Add new option: Specify folder name patterns to ignore.
+
 ### v0.0.3
 - Add new command: 'More File Command: Close All Removed Editors'.
 - 'Move the Current File' and 'Create New File' commands list folders' paths relative to the workspace folder.
