@@ -1,5 +1,5 @@
 # Package vsix file.
-FROM node:18-alpine AS package-stage
+FROM node:20-alpine AS package-stage
 
 WORKDIR /usr/app
 RUN npm i -g @vscode/vsce
