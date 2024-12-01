@@ -6,7 +6,7 @@ module.exports = {
     ecmaVersion: 6,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', '@stylistic'],
   root: true,
   ignorePatterns: ['out', 'dist', '**/*.d.ts', '.eslintrc.cjs'],
   rules: {
@@ -28,7 +28,7 @@ module.exports = {
     'space-before-function-paren': ['error', 'always'],
     'space-before-blocks': ['error', 'always'],
     'arrow-spacing': 'error',
-    '@typescript-eslint/type-annotation-spacing': ['error', {
+    '@stylistic/type-annotation-spacing': ['error', {
       before: false,
       after: true,
       overrides: {
