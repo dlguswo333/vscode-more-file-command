@@ -65,8 +65,3 @@ Close all editors that show files that have been removed.
 ## Contributing
 - [Open an issue](https://github.com/dlguswo333/vscode-more-file-command/issues) if there is any problem.
 - [Create a pull request](https://github.com/dlguswo333/vscode-more-file-command/pulls) if you want to improve the code.
-
-## Developments
-This repository uses npm as package manager.
-originally used pnpm but vsce does not support offcially as of early 2024, thus we switched to npm.
-Check out the link for more: https://github.com/microsoft/vscode-vsce/issues/421
