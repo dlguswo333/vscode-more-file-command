@@ -49,7 +49,7 @@
           "default": [
             "^\\."
           ],
-          "markdownDescription": "Ignore folders with names that match the regular expression patterns. The items are transformed to regular expressions with `new Regexp(item)`. Note that backslashes need to be escaped."
+          "markdownDescription": "Ignore folders with names that match the regular expression patterns. The items are transformed to regular expressions with `new Regexp(item)`. Note that backslashes should not be escaped."
         },
         "vscode-more-file-command.ignore.foldersInGitignore": {
           "type": "boolean",

@@ -11,16 +11,24 @@ export const getShouldIgnoreFoldersInGitignore = () => {
 };
 
 export const getIgnoreFolderPatterns = () => {
-  const rawValue = getConfigValue('ignore.patterns') as string[];
-  const value = rawValue.map(raw => {
+  const rawValues = getConfigValue('ignore.patterns') as string[];
+  const invalidRawValues: string[] = [];
+  const parseResults = rawValues.map(raw => {
     try {
       return new RegExp(raw);
     } catch {
+      // Filter out invalid strings.
+      invalidRawValues.push(raw);
       return undefined;
     }
-    // Filter out invalid strings.
-    // [TODO] Notify users about invalid config items.
-  }).filter(val => val !== undefined);
+  });
 
-  return value;
+  const patterns = parseResults.filter(val => val !== undefined);
+  if (invalidRawValues.length > 0) {
+    vscode.window.showWarningMessage(
+      `Some of ignore.patterns did not follow RegExp patterns and they are ignored: ${invalidRawValues.map(val => `'${val}'`).join(', ')}`
+    );
+  }
+
+  return patterns;
 };
