@@ -27,4 +27,6 @@ jobs:
       - name: npm run lint
         run: npm run lint
       - name: npm test
-        run: npm test
+        # xvfb is required in headless Linux machine
+        # https://code.visualstudio.com/api/working-with-extensions/continuous-integration#github-actions
+        run: xvfb-run -a npm test
