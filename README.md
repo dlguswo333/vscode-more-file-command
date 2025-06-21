@@ -42,11 +42,20 @@ Close all editors that show files that have been removed.
 
 <!-- ## Requirements -->
 
-<!-- ## Extension Settings -->
+## Configurations
+### `ignore.patterns`
+Ignore folders with names that match the regular expression patterns. The items are transformed to regular expressions with `new Regexp(item)`. Note that backslashes should not be escaped.
+
+### `ignore.foldersInGitignore`
+Should ignore folders that are listed in `.gitignore`.
 
 <!-- ## Known Issues -->
 
 ## Release Notes
+### v0.0.5
+- Fix `ignore.patterns` configuration documentations.
+- Show invalid patterns on `ignore.patterns` configuration.
+
 ### v0.0.4
 - Add new option: Whether to ignore folders listed in `.gitignore`.
 - Add new option: Specify folder name patterns to ignore.
