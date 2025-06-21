@@ -47,6 +47,10 @@ Close all editors that show files that have been removed.
 <!-- ## Known Issues -->
 
 ## Release Notes
+### v0.0.5
+- Fix `ignore.patterns` configuration documentations.
+- Show invalid patterns on `ignore.patterns` configuration.
+
 ### v0.0.4
 - Add new option: Whether to ignore folders listed in `.gitignore`.
 - Add new option: Specify folder name patterns to ignore.
