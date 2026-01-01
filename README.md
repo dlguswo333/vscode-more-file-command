@@ -40,6 +40,14 @@ Close all editors that show files that have been removed.
 - Useful when you have lots of files that are being created or removed; e.g. git checkout.
 - It will not close editors that are either modified or pinned.
 
+### Copy the Current File
+![copy](docs/copy.gif)
+
+Copy the current file and create a new file.
+- You may specify where to paste the current file.
+- You may specify the new file name.
+- If a file with the same name exists, the command will fail.
+
 <!-- ## Requirements -->
 
 ## Configurations

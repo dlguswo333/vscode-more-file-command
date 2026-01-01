@@ -6,6 +6,7 @@ import moveCurrentFileCmd from '@/cmd/moveCurrentFile';
 import createNewFileCmd from '@/cmd/createNewFile';
 import deleteCurrentFileCmd from '@/cmd/deleteCurrentFile';
 import closeAllRemovedEditorsCmd from '@/cmd/closeAllRemovedEditors';
+import copyCurrentFileCmd from '@/cmd/copyCurrentFile';
 
 export function activate (context: vscode.ExtensionContext) {
   console.log('The Extension "vscode-more-file-command" is now active.');
@@ -15,6 +16,7 @@ export function activate (context: vscode.ExtensionContext) {
   context.subscriptions.push(createNewFileCmd);
   context.subscriptions.push(deleteCurrentFileCmd);
   context.subscriptions.push(closeAllRemovedEditorsCmd);
+  context.subscriptions.push(copyCurrentFileCmd);
 }
 
 // This method is called when your extension is deactivated
