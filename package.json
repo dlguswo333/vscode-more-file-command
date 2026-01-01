@@ -39,7 +39,7 @@
       },
       {
         "command": "vscode-more-file-command.copyCurrentFile",
-        "title": "More File Command: Copy Current File"
+        "title": "More File Command: Copy the Current File"
       }
     ],
     "configuration": {
