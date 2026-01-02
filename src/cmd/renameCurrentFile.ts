@@ -4,10 +4,12 @@ import {getFileNameFromPath} from '@/util';
 const command = vscode.commands.registerCommand('vscode-more-file-command.renameCurrentFile', () => {
   const currentFile = vscode.window.activeTextEditor?.document;
   if (!currentFile) {
+    vscode.window.showErrorMessage('Could not get the current file opened.');
     return;
   }
   const currentFileName = getFileNameFromPath(currentFile.fileName);
   if (!currentFileName) {
+    vscode.window.showErrorMessage('Could not get the current file name.');
     return;
   }
 

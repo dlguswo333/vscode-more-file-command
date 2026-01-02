@@ -6,6 +6,7 @@ type QuickPickFolderItem = vscode.QuickPickItem & { uri: vscode.Uri };
 const createNewFile = async () => {
   const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
   if (!workspaceFolder) {
+    vscode.window.showErrorMessage('Could not get the workspace folder opened.');
     return;
   }
 

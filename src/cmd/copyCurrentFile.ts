@@ -6,11 +6,17 @@ type QuickPickFolderItem = vscode.QuickPickItem & { uri: vscode.Uri };
 const copyCurrentFile = async () => {
   const currentFile = vscode.window.activeTextEditor?.document;
   const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-  if (!currentFile || !workspaceFolder) {
+  if (!workspaceFolder) {
+    vscode.window.showErrorMessage('Could not get the workspace folder opened.');
+    return;
+  }
+  if (!currentFile) {
+    vscode.window.showErrorMessage('Could not get the current file opened.');
     return;
   }
   const currentFileName = getFileNameFromPath(currentFile.fileName);
   if (!currentFileName) {
+    vscode.window.showErrorMessage('Could not get the current file name.');
     return;
   }
 
