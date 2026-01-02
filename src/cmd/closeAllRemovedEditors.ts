@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import strings from '@/strings';
 
 const command = vscode.commands.registerCommand('vscode-more-file-command.closeAllRemovedEditors', async () => {
   let didFail: boolean = false;
@@ -34,9 +35,9 @@ const command = vscode.commands.registerCommand('vscode-more-file-command.closeA
   }));
 
   if (didFail) {
-    vscode.window.showErrorMessage('Failed to close some removed editors for unknown reasons');
+    vscode.window.showErrorMessage(strings.error.couldNotCloseRemovedEditors);
   } else {
-    vscode.window.showErrorMessage('Closed all removed editors.');
+    vscode.window.showErrorMessage(strings.success.closedRemovedEditors);
   }
 });
 

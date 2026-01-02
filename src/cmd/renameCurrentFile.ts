@@ -1,15 +1,16 @@
 import * as vscode from 'vscode';
 import {getFileNameFromPath} from '@/util';
+import strings from '@/strings';
 
 const command = vscode.commands.registerCommand('vscode-more-file-command.renameCurrentFile', () => {
   const currentFile = vscode.window.activeTextEditor?.document;
   if (!currentFile) {
-    vscode.window.showErrorMessage('Could not get the current file opened.');
+    vscode.window.showErrorMessage(strings.error.couldNotGetCurrentFile);
     return;
   }
   const currentFileName = getFileNameFromPath(currentFile.fileName);
   if (!currentFileName) {
-    vscode.window.showErrorMessage('Could not get the current file name.');
+    vscode.window.showErrorMessage(strings.error.couldNotGetCurrentFileName);
     return;
   }
 
@@ -18,10 +19,10 @@ const command = vscode.commands.registerCommand('vscode-more-file-command.rename
     value: currentFileName,
     validateInput: (value) => {
       if (value.includes('/') || value.includes('\\')) {
-        return 'Renaming the file name including path separator is not supported.';
+        return strings.error.cannotRenameWithPathSep;
       }
       if (!value.trim()) {
-        return `Naming the file name as '${value}' is not supported.`;
+        return strings.error.cannotNameFileInName(value);
       }
       return undefined;
     },
@@ -35,14 +36,14 @@ const command = vscode.commands.registerCommand('vscode-more-file-command.rename
     try {
       // stat will fail if the target uri does not exist.
       await vscode.workspace.fs.stat(targetUri);
-      vscode.window.showErrorMessage(`The file name '${value}' already exists.`);
+      vscode.window.showErrorMessage(strings.error.fileWithSameNameExists(value));
       return;
     } catch {
       try {
         await vscode.workspace.fs.rename(currentFile.uri, targetUri, {overwrite: false});
-        vscode.window.showInformationMessage(`Renamed the current file name to '${value}'.`);
+        vscode.window.showInformationMessage(strings.success.renamedTheFileToName(value));
       } catch {
-        vscode.window.showErrorMessage(`Renaming the current file as '${value}' failed for unknown reasons.`);
+        vscode.window.showErrorMessage(strings.error.couldNotRenameCurrentFileInName(value));
       }
     }
   });

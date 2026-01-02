@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import {getAllFoldersInWorkspaceFolder, getFileNameFromPath, getRelativeUriPath} from '@/util';
+import strings from '@/strings';
 
 type QuickPickFolderItem = vscode.QuickPickItem & { uri: vscode.Uri };
 
@@ -7,22 +8,22 @@ const moveCurrentFile = async () => {
   const currentFile = vscode.window.activeTextEditor?.document;
   const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
   if (!workspaceFolder) {
-    vscode.window.showErrorMessage('Could not get the workspace folder opened.');
+    vscode.window.showErrorMessage(strings.error.couldNotGetWorkspaceFolder);
     return;
   }
   if (!currentFile) {
-    vscode.window.showErrorMessage('Could not get the current file opened.');
+    vscode.window.showErrorMessage(strings.error.couldNotGetCurrentFile);
     return;
   }
   const currentFileName = getFileNameFromPath(currentFile.fileName);
   if (!currentFileName) {
-    vscode.window.showErrorMessage('Could not get the current file name.');
+    vscode.window.showErrorMessage(strings.error.couldNotGetCurrentFileName);
     return;
   }
 
   const folders = await getAllFoldersInWorkspaceFolder();
   if (!folders) {
-    vscode.window.showErrorMessage('Could not get the folders in the workspace for unknown reasons.');
+    vscode.window.showErrorMessage(strings.error.couldNotGetFoldersInWorkspace);
     return;
   }
 
@@ -49,7 +50,7 @@ const moveCurrentFile = async () => {
   try {
     // stat will fail if the target uri does not exist.
     await vscode.workspace.fs.stat(targetFileUri);
-    vscode.window.showErrorMessage('A file with the same name already exists inside the folder.');
+    vscode.window.showErrorMessage(strings.error.fileWithSameNameExistsInFolder);
   } catch {
     try {
       await vscode.workspace.fs.rename(
@@ -57,16 +58,18 @@ const moveCurrentFile = async () => {
         targetFileUri,
         {overwrite: false}
       );
-      vscode.window.showInformationMessage(`Moved the current file to ${pickedItem.description + '/' + pickedItem.label}`);
+      vscode.window.showInformationMessage(
+        strings.success.movedCurrentFileTo(pickedItem.description + '/' + pickedItem.label)
+      );
     } catch {
-      vscode.window.showErrorMessage('Failed to move the current file for unknown reasons.');
+      vscode.window.showErrorMessage(strings.error.couldNotMoveCurrentFile);
     }
   }
 };
 
 const command = vscode.commands.registerCommand('vscode-more-file-command.moveCurrentFile', () => {
   moveCurrentFile().catch(() => {
-    vscode.window.showErrorMessage('Moving the current file failed for unknown reasons.');
+    vscode.window.showErrorMessage(strings.error.couldNotMoveCurrentFile);
   });
 });
 

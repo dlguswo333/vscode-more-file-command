@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import {getAllFoldersInWorkspaceFolder, getFileNameFromPath, getRelativeUriPath, getUriAvailable} from '@/util';
+import strings from '@/strings';
 
 type QuickPickFolderItem = vscode.QuickPickItem & { uri: vscode.Uri };
 
@@ -7,22 +8,22 @@ const copyCurrentFile = async () => {
   const currentFile = vscode.window.activeTextEditor?.document;
   const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
   if (!workspaceFolder) {
-    vscode.window.showErrorMessage('Could not get the workspace folder opened.');
+    vscode.window.showErrorMessage(strings.error.couldNotGetWorkspaceFolder);
     return;
   }
   if (!currentFile) {
-    vscode.window.showErrorMessage('Could not get the current file opened.');
+    vscode.window.showErrorMessage(strings.error.couldNotGetCurrentFile);
     return;
   }
   const currentFileName = getFileNameFromPath(currentFile.fileName);
   if (!currentFileName) {
-    vscode.window.showErrorMessage('Could not get the current file name.');
+    vscode.window.showErrorMessage(strings.error.couldNotGetCurrentFileName);
     return;
   }
 
   const folders = await getAllFoldersInWorkspaceFolder();
   if (!folders) {
-    vscode.window.showErrorMessage('Could not get the folders in the workspace for unknown reasons.');
+    vscode.window.showErrorMessage(strings.error.couldNotGetFoldersInWorkspace);
     return;
   }
 
@@ -56,7 +57,7 @@ const copyCurrentFile = async () => {
     destFileName
   );
   if (await getUriAvailable(destFileUri)) {
-    vscode.window.showErrorMessage('The file already exists.');
+    vscode.window.showErrorMessage(strings.error.fileWithSameNameExistsInFolder);
     return;
   }
   await vscode.workspace.fs.copy(currentFileUri, destFileUri, {overwrite: false});
@@ -66,7 +67,7 @@ const command = vscode.commands.registerCommand('vscode-more-file-command.copyCu
   copyCurrentFile().catch((e) => {
     console.error('copyCurrentFile error:');
     console.error(e);
-    vscode.window.showErrorMessage('Copying the current file failed for unknown reasons.');
+    vscode.window.showErrorMessage(strings.error.couldNotCopyCurrentFile);
   });
 });
 
