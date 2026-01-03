@@ -14,6 +14,7 @@ export default {
     couldNotRenameCurrentFileInName: (name: string) => `Renaming the current file as '${name}' failed for unknown reasons.`,
     cannotRenameWithPathSep: 'Renaming the file name including path separator is not supported.',
     cannotNameFileInName: (name: string) => `Naming the file name as '${name}' is not supported.`,
+    couldNotParseSomeIgnores: (value: string) => `Some of ignore.patterns did not follow RegExp patterns and they are ignored: ${value}`,
   },
   success: {
     closedRemovedEditors: 'Closed all removed editors.',
