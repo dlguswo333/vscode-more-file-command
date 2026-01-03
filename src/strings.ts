@@ -20,4 +20,12 @@ export default {
     renamedTheFileToName: (name: string) => `Renamed the current file name to '${name}'.`,
     movedCurrentFileTo: (to: string) => `Moved the current file to ${to}`,
   },
+  instruction: {
+    enterNewFileName: 'Enter the new file name:',
+    enterNewCurrentFileName: 'Enter a new name for the current file:',
+    selectFolderForCurrentFileMove: 'Select a folder to move the current file to:',
+    selectFolderForCurentFileCopy: 'Select a folder to copy the current file to:',
+    deletePermanently: 'Delete Permanently',
+    deleteFileWithName: (name: string) => `Are you sure to delete the file: '${name}'?`,
+  },
 } as const;

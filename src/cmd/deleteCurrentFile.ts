@@ -2,8 +2,6 @@ import * as vscode from 'vscode';
 import {getFileNameFromPath} from '@/util';
 import strings from '@/strings';
 
-const DELETE_PERMANENTLY = 'Delete Permanently';
-
 const command = vscode.commands.registerCommand('vscode-more-file-command.deleteCurrentFile', () => {
   const currentFile = vscode.window.activeTextEditor?.document;
   if (!currentFile) {
@@ -17,13 +15,13 @@ const command = vscode.commands.registerCommand('vscode-more-file-command.delete
   }
 
   const inputRes = vscode.window.showWarningMessage(
-    `Are you sure to delete the current file: '${currentFileName}'?`,
+    strings.instruction.deleteFileWithName(currentFileName),
     {modal: true},
-    DELETE_PERMANENTLY
+    strings.instruction.deletePermanently
   );
 
   inputRes.then(async (value) => {
-    if (value !== DELETE_PERMANENTLY) {
+    if (value !== strings.instruction.deletePermanently) {
       return;
     }
     try {

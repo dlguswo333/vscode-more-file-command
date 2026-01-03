@@ -36,7 +36,7 @@ const copyCurrentFile = async () => {
     quickPickItems,
     {
       canPickMany: false,
-      title: 'Select a folder to copy the current file to:',
+      title: strings.instruction.selectFolderForCurentFileCopy,
     }
   );
   if (!pickedItem) {
@@ -44,7 +44,7 @@ const copyCurrentFile = async () => {
   }
 
   const destFileName = await vscode.window.showInputBox({
-    title: 'Insert the new file name:',
+    title: strings.instruction.enterNewFileName,
     value: currentFileName,
   });
   if (!destFileName) {

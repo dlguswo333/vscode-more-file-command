@@ -36,7 +36,7 @@ const moveCurrentFile = async () => {
     quickPickItems,
     {
       canPickMany: false,
-      title: 'Insert a folder name to move the current file to:',
+      title: strings.instruction.selectFolderForCurrentFileMove,
     }
   );
   if (!pickedItem) {
