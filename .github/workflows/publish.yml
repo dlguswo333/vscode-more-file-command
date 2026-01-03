@@ -28,7 +28,7 @@ jobs:
           export GIT_TAG="$(git tag --points-at=$COMMIT_SHA | tr -d ' \n')"
           if [ -z "$GIT_TAG" ]; then
             echo "tag not found"
-            exit 1
+            exit 0
           fi
           echo "Current git tag: '$GIT_TAG'"
           export PKG_VERSION="$(npm pkg get version | tr -d '\"')"
