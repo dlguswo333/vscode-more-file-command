@@ -1,17 +1,19 @@
 name: publish
 on:
-  workflow_run:
-    workflows: ["code-check"]
-    types: [completed]
-    branches:
-      - main
+  push:
+    tags: 'v*'
 
   # Allows you to run this workflow manually from the Actions tab
   # This event will only trigger a workflow run if the workflow file is on the default branch.
   workflow_dispatch:
 
 jobs:
+  code-check:
+    uses: ./.github/workflows/code-check.yml
+
   publish:
+    needs:
+      - code-check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
