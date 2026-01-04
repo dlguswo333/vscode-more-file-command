@@ -10,6 +10,8 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   # This event will only trigger a workflow run if the workflow file is on the default branch.
   workflow_dispatch:
+  # To indicate it can be called by another workflow.
+  workflow_call:
 
 jobs:
   test:
