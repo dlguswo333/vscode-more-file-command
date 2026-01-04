@@ -1,0 +1,32 @@
+export default {
+  error: {
+    couldNotGetWorkspaceFolder: 'Could not get the workspace folder opened.',
+    couldNotGetFoldersInWorkspace: 'Could not get the folders in the workspace for unknown reasons.',
+    couldNotGetCurrentFile: 'Could not get the current file opened.',
+    couldNotGetCurrentFileName: 'Could not get the current file name.',
+    couldNotCloseRemovedEditors: 'Failed to close some removed editors for unknown reasons',
+    couldNotCopyCurrentFile: 'Copying the current file failed for unknown reasons.',
+    couldNotCreateNewFile: 'Creating new file failed for unknown reasons.',
+    couldNotDeleteCurrentFile: 'Deleting the current file failed for unknown reasons.',
+    couldNotMoveCurrentFile: 'Failed to move the current file for unknown reasons.',
+    fileWithSameNameExistsInFolder: 'A file with the same name already exists inside the folder.',
+    fileWithSameNameExists: (name: string) => `The file name '${name}' already exists.`,
+    couldNotRenameCurrentFileInName: (name: string) => `Renaming the current file as '${name}' failed for unknown reasons.`,
+    cannotRenameWithPathSep: 'Renaming the file name including path separator is not supported.',
+    cannotNameFileInName: (name: string) => `Naming the file name as '${name}' is not supported.`,
+    couldNotParseSomeIgnores: (value: string) => `Some of ignore.patterns did not follow RegExp patterns and they are ignored: ${value}`,
+  },
+  success: {
+    closedRemovedEditors: 'Closed all removed editors.',
+    renamedTheFileToName: (name: string) => `Renamed the current file name to '${name}'.`,
+    movedCurrentFileTo: (to: string) => `Moved the current file to ${to}`,
+  },
+  instruction: {
+    enterNewFileName: 'Enter the new file name:',
+    enterNewCurrentFileName: 'Enter a new name for the current file:',
+    selectFolderForCurrentFileMove: 'Select a folder to move the current file to:',
+    selectFolderForCurentFileCopy: 'Select a folder to copy the current file to:',
+    deletePermanently: 'Delete Permanently',
+    deleteFileWithName: (name: string) => `Are you sure to delete the file: '${name}'?`,
+  },
+} as const;

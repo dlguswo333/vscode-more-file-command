@@ -1,22 +1,29 @@
 import * as vscode from 'vscode';
 import {getAllFoldersInWorkspaceFolder, getFileNameFromPath, getRelativeUriPath, getUriAvailable} from '@/util';
+import strings from '@/strings';
 
 type QuickPickFolderItem = vscode.QuickPickItem & { uri: vscode.Uri };
 
 const copyCurrentFile = async () => {
   const currentFile = vscode.window.activeTextEditor?.document;
   const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-  if (!currentFile || !workspaceFolder) {
+  if (!workspaceFolder) {
+    vscode.window.showErrorMessage(strings.error.couldNotGetWorkspaceFolder);
+    return;
+  }
+  if (!currentFile) {
+    vscode.window.showErrorMessage(strings.error.couldNotGetCurrentFile);
     return;
   }
   const currentFileName = getFileNameFromPath(currentFile.fileName);
   if (!currentFileName) {
+    vscode.window.showErrorMessage(strings.error.couldNotGetCurrentFileName);
     return;
   }
 
   const folders = await getAllFoldersInWorkspaceFolder();
   if (!folders) {
-    vscode.window.showErrorMessage('Could not get the folders in the workspace for unknown reasons.');
+    vscode.window.showErrorMessage(strings.error.couldNotGetFoldersInWorkspace);
     return;
   }
 
@@ -29,7 +36,7 @@ const copyCurrentFile = async () => {
     quickPickItems,
     {
       canPickMany: false,
-      title: 'Select a folder to copy the current file to:',
+      title: strings.instruction.selectFolderForCurentFileCopy,
     }
   );
   if (!pickedItem) {
@@ -37,7 +44,7 @@ const copyCurrentFile = async () => {
   }
 
   const destFileName = await vscode.window.showInputBox({
-    title: 'Insert the new file name:',
+    title: strings.instruction.enterNewFileName,
     value: currentFileName,
   });
   if (!destFileName) {
@@ -50,7 +57,7 @@ const copyCurrentFile = async () => {
     destFileName
   );
   if (await getUriAvailable(destFileUri)) {
-    vscode.window.showErrorMessage('The file already exists.');
+    vscode.window.showErrorMessage(strings.error.fileWithSameNameExistsInFolder);
     return;
   }
   await vscode.workspace.fs.copy(currentFileUri, destFileUri, {overwrite: false});
@@ -60,7 +67,7 @@ const command = vscode.commands.registerCommand('vscode-more-file-command.copyCu
   copyCurrentFile().catch((e) => {
     console.error('copyCurrentFile error:');
     console.error(e);
-    vscode.window.showErrorMessage('Copying the current file failed for unknown reasons.');
+    vscode.window.showErrorMessage(strings.error.couldNotCopyCurrentFile);
   });
 });
 

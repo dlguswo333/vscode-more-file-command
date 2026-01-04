@@ -1,26 +1,27 @@
 import * as vscode from 'vscode';
 import {getFileNameFromPath} from '@/util';
-
-const DELETE_PERMANENTLY = 'Delete Permanently';
+import strings from '@/strings';
 
 const command = vscode.commands.registerCommand('vscode-more-file-command.deleteCurrentFile', () => {
   const currentFile = vscode.window.activeTextEditor?.document;
   if (!currentFile) {
+    vscode.window.showErrorMessage(strings.error.couldNotGetCurrentFile);
     return;
   }
   const currentFileName = getFileNameFromPath(currentFile.fileName);
   if (!currentFileName) {
+    vscode.window.showErrorMessage(strings.error.couldNotGetCurrentFileName);
     return;
   }
 
   const inputRes = vscode.window.showWarningMessage(
-    `Are you sure to delete the current file: '${currentFileName}'?`,
+    strings.instruction.deleteFileWithName(currentFileName),
     {modal: true},
-    DELETE_PERMANENTLY
+    strings.instruction.deletePermanently
   );
 
   inputRes.then(async (value) => {
-    if (value !== DELETE_PERMANENTLY) {
+    if (value !== strings.instruction.deletePermanently) {
       return;
     }
     try {
@@ -29,7 +30,7 @@ const command = vscode.commands.registerCommand('vscode-more-file-command.delete
       });
     } catch (e) {
       console.log(e);
-      vscode.window.showErrorMessage('Deleting the current file failed for unknown reasons.');
+      vscode.window.showErrorMessage(strings.error.couldNotDeleteCurrentFile);
     }
   });
 });

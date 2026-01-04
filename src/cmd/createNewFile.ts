@@ -1,17 +1,19 @@
 import {getAllFoldersInWorkspaceFolder, getRelativeUriPath} from '@/util';
 import * as vscode from 'vscode';
+import strings from '@/strings';
 
 type QuickPickFolderItem = vscode.QuickPickItem & { uri: vscode.Uri };
 
 const createNewFile = async () => {
   const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
   if (!workspaceFolder) {
+    vscode.window.showErrorMessage(strings.error.couldNotGetWorkspaceFolder);
     return;
   }
 
   const folders = await getAllFoldersInWorkspaceFolder();
   if (!folders) {
-    vscode.window.showErrorMessage('Could not get the folders in the workspace for unknown reasons.');
+    vscode.window.showErrorMessage(strings.error.couldNotGetFoldersInWorkspace);
     return;
   }
 
@@ -24,7 +26,7 @@ const createNewFile = async () => {
     quickPickItems,
     {
       canPickMany: false,
-      title: 'Insert a folder name to move the current file to:',
+      title: strings.instruction.selectFolderForCurrentFileMove,
     }
   );
   if (!pickedItem) {
@@ -37,7 +39,7 @@ const createNewFile = async () => {
 
 const command = vscode.commands.registerCommand('vscode-more-file-command.createNewFile', () => {
   createNewFile().catch(() => {
-    vscode.window.showErrorMessage('Creating new file failed for unknown reasons.');
+    vscode.window.showErrorMessage(strings.error.couldNotCreateNewFile);
   });
 });
 
