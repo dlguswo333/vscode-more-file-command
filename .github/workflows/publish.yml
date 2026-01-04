@@ -26,11 +26,11 @@ jobs:
       - name: Get Version
         # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#environment-files
         run: |
-          export COMMIT_SHA="${{ github.event.workflow_run.head_sha }}"
+          export COMMIT_SHA="${{ github.sha }}"
           export GIT_TAG="$(git tag --points-at=$COMMIT_SHA | tr -d ' \n')"
           if [ -z "$GIT_TAG" ]; then
             echo "tag not found"
-            exit 0
+            exit 1
           fi
           echo "Current git tag: '$GIT_TAG'"
           export PKG_VERSION="$(npm pkg get version | tr -d '\"')"
