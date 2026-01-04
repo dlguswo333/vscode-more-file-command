@@ -60,6 +60,9 @@ Should ignore folders that are listed in `.gitignore`.
 <!-- ## Known Issues -->
 
 ## Release Notes
+### v0.0.6
+- Add new command: 'More File Command: Copy the Current File'.
+- Improve messages on results to be more clear.
 ### v0.0.5
 - Fix `ignore.patterns` configuration documentations.
 - Show invalid patterns on `ignore.patterns` configuration.
